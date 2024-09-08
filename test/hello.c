@@ -21,8 +21,10 @@ volatile int wait = 1;
 
 int main(int argc, char const *argv[])
 {
+#if 1
     while (wait)
         ;
+#endif
 #if 1
     // rdcycle();
     printf("hello world!\n");
@@ -30,6 +32,11 @@ int main(int argc, char const *argv[])
 #else
     char *str = "hello world!\n";
     write(0, str, strlen(str));
+#endif
+done:
+#if 1
+    while (!wait)
+        ;
 #endif
     return 0;
 }

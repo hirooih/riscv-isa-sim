@@ -1,21 +1,29 @@
 TARGET = hello
-PATH := /opt/riscv/bin:$(PATH)
+TARGET = rot13
 
-prefix := riscv64-unknown-elf-
-prefix := riscv64-elf-
-CC = ${prefix}gcc
-objdump = ${prefix}objdump
-gdb = ${prefix}gdb
+RISCV := /opt/riscv
+RISCV := /opt/riscv32-embecosm-macos-gcc13.2.0
+export PATH := $(RISCV)/bin:$(PATH)
+
+prefix := riscv64-unknown-elf
+prefix := riscv64-elf
+prefix := riscv32-unknown-elf
+
+ifdef prefix
+CC = ${prefix}-gcc
+objdump = ${prefix}-objdump
+gdb = ${prefix}-gdb
+endif
 
 CFLAGS = -g -Og
 
-#rv32 := 1
+rv32 := 1
 ifdef rv32
 CFLAGS += -march=rv32imc_zicsr -mabi=ilp32
 #LDFLAGS += -march=rv32ia -mabi=ilp32
 SPIKE_FLAGS  = --isa=rv32imc_zicsr_zifencei
 #SPIKE_FLAGS  = --isa=rv32imc_zicsr_zifencei_zba_zbb_zbc_zbs_zcb_zcmp_zcmt_zicond
-PK = /opt/riscv/riscv32-unknown-elf/bin/pk #-p -s
+PK = $(RISCV)/riscv32-unknown-elf/bin/pk #-p -s
 else
 # default
 # CFLAGS += -march=rv64imafdc -mabi=lp64d
@@ -42,7 +50,7 @@ dts_dump: $(TARGET)
 openocd:
 	openocd -f spike.cfg
 
-gdb_flags = -x run.gdb
+# gdb_flags = -x run.gdb
 gdb: $(TARGET)
 	${gdb} $(gdb_flags) $<
 
