@@ -1,14 +1,14 @@
 #include <string.h>
 #include <stdio.h>
 
-char str[] = "Vafgehpgvba frgf jnag gb or serr!";
+char text[] = "Vafgehpgvba frgf jnag gb or serr!";
 
 int main()
 {
     // newlib/libgloss/riscv/crt0.S does not copy .rodata to .data.
     // so store to str[] causes access fail.
-    char text[sizeof(str)];
-    strncpy(text, str, sizeof(str));
+    // char text[sizeof(str)];
+    // strncpy(text, str, sizeof(str));
     printf("%s\n", text);
 
     // wait for gdb being connected
