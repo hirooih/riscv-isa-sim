@@ -24,6 +24,7 @@ public:
   virtual bool is_debug_module_access(reg_t, size_t) { return false; }
   // Callback for processors to let the simulation know they were reset.
   virtual void proc_reset(unsigned id) = 0;
+  virtual void sim_exit(int code) = 0;
 
   virtual const cfg_t &get_cfg() const = 0;
   virtual const std::map<size_t, processor_t*>& get_harts() const = 0;
